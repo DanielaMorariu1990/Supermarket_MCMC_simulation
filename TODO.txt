@@ -1,0 +1,4 @@
+TO DO list & issue tracker
+
+- add transition matrix to the customerClass
+- 
