@@ -3,7 +3,7 @@
 Project 8 for the Spiced Data Science Bootcamp.
 
 ## Team
-- - Daniela Morariu
+- Daniela Morariu
 - Lorena Ciutacu
 - Eeva Elliott
 
