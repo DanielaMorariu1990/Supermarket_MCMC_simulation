@@ -1,4 +1,4 @@
 TO DO list & issue tracker
 
 - add transition matrix to the customerClass
-- 
+- create customer matrix (customer_id, first_loc, second_loc, ....)

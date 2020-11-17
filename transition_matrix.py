@@ -100,4 +100,5 @@ transition_matrix.sum(axis=1)
 
 # export the transition prob matrix to csv
 transition_matrix.to_csv("./data/transition_matrix.csv")
+
 print(transition_matrix)
