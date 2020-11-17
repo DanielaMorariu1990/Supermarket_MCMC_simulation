@@ -20,6 +20,18 @@ def missing_checkout(data):
 
     return data
 
+
+def inserting_initial_state(data):
+    min_datetime = data.groupby("customer_no")[
+        "timestamp"].first().reset_index()
+
+    for i in range(min_datetime.shape[0]):
+        data = data.append({"timestamp": min_datetime["timestamp"].iloc[i], "customer_no": min_datetime["customer_no"].iloc[i],
+                            "location": "entrance"}, ignore_index=True)
+
+    return data
+
+
 # make customer name unique
 
 
@@ -59,8 +71,12 @@ missing_checkout(friday)
 friday["weekday"] = "friday"
 cust_no_name(friday, "friday")
 
+
 # concatenate each weekday in one data frame
 data = pd.concat([monday, tuesday, wednesday, thursday, friday])
+data.set_index("timestamp")
+
+data = inserting_initial_state(data)
 
 # values need to be sorted inplace, such that we have
 # correct transitions
@@ -84,3 +100,4 @@ transition_matrix.sum(axis=1)
 
 # export the transition prob matrix to csv
 transition_matrix.to_csv("./data/transition_matrix.csv")
+print(transition_matrix)
