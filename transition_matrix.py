@@ -84,3 +84,11 @@ transition_matrix.sum(axis=1)
 
 # export the transition prob matrix to csv
 transition_matrix.to_csv("./data/transition_matrix.csv")
+
+## Transition locations
+data["location_2"] = data["location_next"].shift(-1)
+data["location_3"] = data["location_2"].shift(-1)
+data["location_4"] = data["location_3"].shift(-1)
+customer_path = data[["location", "location_next","location_2","location_3","location_4"]]
+customer_path.to_csv("data/customer_path.csv")
+print(customer_path)
