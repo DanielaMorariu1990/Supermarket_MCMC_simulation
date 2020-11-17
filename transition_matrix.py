@@ -5,6 +5,7 @@ in the supermarket
 
 import pandas as pd
 import numpy as np
+import datetime
 
 # correct data (customers with no marked checkout)
 
@@ -24,9 +25,10 @@ def missing_checkout(data):
 def inserting_initial_state(data):
     min_datetime = data.groupby("customer_no")[
         "timestamp"].first().reset_index()
+    one_minute = datetime.timedelta(minutes=1)
 
     for i in range(min_datetime.shape[0]):
-        data = data.append({"timestamp": min_datetime["timestamp"].iloc[i], "customer_no": min_datetime["customer_no"].iloc[i],
+        data = data.append({"timestamp": min_datetime["timestamp"].iloc[i] - one_minute, "customer_no": min_datetime["customer_no"].iloc[i],
                             "location": "entrance"}, ignore_index=True)
 
     return data
@@ -43,37 +45,38 @@ def cust_no_name(data, weekday):
 
 ##read in data
 monday = pd.read_csv("./data/monday.csv", header=0, sep=";", parse_dates=True)
-missing_checkout(monday)
+monday = missing_checkout(monday)
 monday["weekday"] = "monday"
 cust_no_name(monday, "monday")
 
 tuesday = pd.read_csv("./data/tuesday.csv", header=0,
                       sep=";", parse_dates=True)
-missing_checkout(tuesday)
+tuesday = missing_checkout(tuesday)
 tuesday["weekday"] = "tuesday"
 cust_no_name(tuesday, "tuesday")
 
 wednesday = pd.read_csv("./data/wednesday.csv",
                         header=0, sep=";", parse_dates=True)
-missing_checkout(wednesday)
+wednesday = missing_checkout(wednesday)
 wednesday["weekday"] = "wednesday"
 cust_no_name(wednesday, "wednesday")
 
 thursday = pd.read_csv("./data/thursday.csv", header=0,
                        sep=";", parse_dates=True)
-missing_checkout(thursday)
+thursday = missing_checkout(thursday)
 thursday["weekday"] = "thursday"
 cust_no_name(thursday, "thursday")
 
 friday = pd.read_csv("./data/thursday.csv", header=0,
                      sep=";", parse_dates=True)
-missing_checkout(friday)
+friday = missing_checkout(friday)
 friday["weekday"] = "friday"
 cust_no_name(friday, "friday")
 
 
 # concatenate each weekday in one data frame
 data = pd.concat([monday, tuesday, wednesday, thursday, friday])
+data["timestamp"] = pd.to_datetime(data["timestamp"])
 data.set_index("timestamp")
 
 data = inserting_initial_state(data)
@@ -82,9 +85,11 @@ data = inserting_initial_state(data)
 # correct transitions
 # calculate next location (transition from one section to the other)
 data.sort_values(["customer_no", "timestamp"], inplace=True)
+print(data.head(10))
 
 data["location_next"] = data["location"].shift(-1)
-
+print("next location")
+print(data.head(10))
 # checkout will only migrate to checkout!
 data.loc[(data.location == 'checkout'), 'location_next'] = 'checkout'
 
@@ -100,5 +105,3 @@ transition_matrix.sum(axis=1)
 
 # export the transition prob matrix to csv
 transition_matrix.to_csv("./data/transition_matrix.csv")
-
-print(transition_matrix)
