@@ -8,6 +8,7 @@ import datetime
 from customer_simulation import Customer
 
 transition_probabilities = pd.read_csv("data/transition_matrix.csv")
+transition_probabilities.set_index("location", inplace=True)
 customer_path = pd.read_csv("data/customer_path.csv")
 
 
@@ -51,7 +52,7 @@ class Supermarket():
         # we would need to call a next_state on customers
         # I do not know how to access it to print it????
         for cust in self.customers:
-            cust.state = cust.next_state()
+            cust.next_state()
 
     def add_new_customers(self, stop):
         """randomly creates new customers.
@@ -69,12 +70,10 @@ class Supermarket():
             cust for cust in self.customers if not cust.is_active)
 
 
-penny = Supermarket()
-penny.get_time()
-penny.add_new_customers(2)
-penny.print_customers()
-penny.next_minute()
-penny.print_customers()
-
-rewe = Supermarket()
-rewe.print(customers)
+if __name__ == '__main__':
+    penny = Supermarket()
+    penny.get_time()
+    penny.add_new_customers(2)
+    print(penny.print_customers())
+    penny.next_minute()
+    print(penny.print_customers())
