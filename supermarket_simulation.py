@@ -5,7 +5,7 @@ Start with this to implement the supermarket simulator.
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from customer_simulation import CustomerClass
+from customer_simulation import Customer
 
 transition_probabilities = pd.read_csv("data/transition_matrix.csv")
 customer_path = pd.read_csv("data/customer_path.csv")
