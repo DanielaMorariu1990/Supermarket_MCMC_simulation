@@ -61,3 +61,6 @@ class Supermarket(Customer):
         for cust in self.customers:
             if cust.is_active:
                 pass
+
+rewe = Supermarket()
+rewe.print(customers)
