@@ -26,7 +26,7 @@ class Customer:
     def __repr__(self):
         '''returns a csv string for that customer
         '''
-        return f'{self.id}, {self.state}, {self.transition_mat}'
+        return f'Customer {self.id}, in {self.state}'
 
     def is_active(self):
         '''
@@ -35,6 +35,8 @@ class Customer:
         '''
         if self.state == 'checkout':
             return False
+        else:
+            return True
 
     # set state
     def next_state(self):
@@ -47,16 +49,34 @@ class Customer:
         next_location = np.random.choice(
             self.transition_mat.columns.values, p=self.transition_mat.loc[self.state])
         self.state = next_location
+
 ####customer journey simulation#####
+if __name__ == "__main__":
+    
 
+    # single customer simulation
+    cust1 = Customer(1, 'entrance', transition_matrix)
+    
+    # check state of customer, if 'checkout' delete the customer
+    while cust1.state != 'checkout':
+        cust1.next_state()
+        print(cust1)
+        # for testing purposes set time to one second
+        # for implementation set to one minute
+        time.sleep(1)
 
-# spawn one customer
-cust1 = Customer(1, 'entrance', transition_matrix)
+    # serial multiple customer simulation
+    my_customers = {}
+    for i in range(5):
+        my_cust = Customer(i, 'entrance', transition_matrix)
+        my_customers[i] = my_cust
 
-# check state of customer, if 'checkout' delete the customer
-while cust1.state != 'checkout':
-    cust1.next_state()
-    print(cust1.state)
-    # for testing purposes set time to one second
-    # for implementation set to one minute
-    time.sleep(1)
+    my_customers[0].is_active()
+    #how do I get them all to change state simultaneously?
+    for cust in my_customers:
+        while my_customers[cust].is_active():
+            my_customers[cust].next_state()
+            print(my_customers[cust])
+            time.sleep(1)
+ 
+    #how to implement simultaneous simulation?
