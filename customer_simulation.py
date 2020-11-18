@@ -21,6 +21,7 @@ class Customer:
         self.id = id
         self.state = state
         self.transition_mat = transition_mat
+        self.path = []
 
     # repr
     def __repr__(self):
@@ -47,16 +48,21 @@ class Customer:
         next_location = np.random.choice(
             self.transition_mat.columns.values, p=self.transition_mat.loc[self.state])
         self.state = next_location
+        self.path.append(self.state)
+
+
 ####customer journey simulation#####
+# Driver function
+if __name__ == "__main__":
+    # spawn one customer
+    cust1 = Customer(1, 'entrance', transition_matrix)
 
+    # check state of customer, if 'checkout' delete the customer
+    while cust1.state != 'checkout':
+        cust1.next_state()
+        # for testing purposes set time to one second
+        # for implementation set to one minute
+        time.sleep(1)
 
-# spawn one customer
-cust1 = Customer(1, 'entrance', transition_matrix)
-
-# check state of customer, if 'checkout' delete the customer
-while cust1.state != 'checkout':
-    cust1.next_state()
     print(cust1.state)
-    # for testing purposes set time to one second
-    # for implementation set to one minute
-    time.sleep(1)
+    print(cust1.path)
