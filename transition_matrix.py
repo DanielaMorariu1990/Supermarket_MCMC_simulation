@@ -93,9 +93,14 @@ data = pd.concat([monday, tuesday, wednesday, thursday, friday])
 # inserting initial state
 data = inserting_initial_state(data)
 
+data.set_index("timestamp", inplace=True)
+
+data = data.groupby("customer_no").resample(rule="1T").ffill()
+
 # we need to reset index such that we sort correctly
+del data["customer_no"]
 data.reset_index(inplace=True)
-del data["index"]
+
 
 # values need to be sorted inplace, such that we have
 # correct transitions
@@ -120,3 +125,4 @@ transition_matrix.sum(axis=1)
 
 # export the transition prob matrix to csv
 transition_matrix.to_csv("./data/transition_matrix.csv")
+print(transition_matrix)
