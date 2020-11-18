@@ -8,7 +8,7 @@ Created on Tue Nov 17 09:46:09 2020
 import numpy as np
 import time
 import pandas as pd
-#from transition_matrix import transition_matrix
+# from transition_matrix import transition_matrix
 transition_matrix = pd.read_csv("./data/transition_matrix.csv")
 transition_matrix.set_index("location", inplace=True)
 
@@ -21,7 +21,7 @@ class Customer:
         self.id = id
         self.state = state
         self.transition_mat = transition_mat
-        self.path = customer_path
+        self.path = []]
 
     # repr
     def __repr__(self):
@@ -48,15 +48,15 @@ class Customer:
         '''
         # currently not using the transition probabilities
         next_location = np.random.choice(
-            self.transition_mat.columns.values, p=self.transition_mat.loc[self.state])
-        self.state = next_location
+            self.transition_mat.columns.values, p = self.transition_mat.loc[self.state])
+        self.state=next_location
 
 
 ####customer journey simulation#####
 if __name__ == "__main__":
 
     # single customer simulation
-    cust1 = Customer(1, 'entrance', transition_matrix)
+    cust1=Customer(1, 'entrance', transition_matrix)
 
     # check state of customer, if 'checkout' delete the customer
     while cust1.state != 'checkout':
@@ -67,10 +67,10 @@ if __name__ == "__main__":
         time.sleep(1)
 
     # serial multiple customer simulation
-    my_customers = {}
+    my_customers={}
     for i in range(5):
-        my_cust = Customer(i, 'entrance', transition_matrix)
-        my_customers[i] = my_cust
+        my_cust=Customer(i, 'entrance', transition_matrix)
+        my_customers[i]=my_cust
 
     my_customers[0].is_active()
     # how do I get them all to change state simultaneously?
