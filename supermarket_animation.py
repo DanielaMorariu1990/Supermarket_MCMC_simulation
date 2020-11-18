@@ -1,3 +1,5 @@
+## Create a supermarket image
+
 from PIL import Image
 import numpy as np
 
@@ -54,7 +56,6 @@ a[50:200, 50:150, 2] = 255
 a[50:200, 200:300, 2] = 255
 a[50:200, 350:450, 2] = 255
 a[250:, 450:, 0] = 255
-
 im = Image.fromarray(a)
 im.save('./images/supermarket_generated.png')
 """

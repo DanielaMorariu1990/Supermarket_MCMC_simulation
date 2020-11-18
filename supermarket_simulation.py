@@ -75,3 +75,6 @@ penny.add_new_customers(2)
 penny.print_customers()
 penny.next_minute()
 penny.print_customers()
+
+rewe = Supermarket()
+rewe.print(customers)
