@@ -21,6 +21,7 @@ class Customer:
         self.id = id
         self.state = state
         self.transition_mat = transition_mat
+        self.path = customer_path
 
     # repr
     def __repr__(self):
@@ -50,13 +51,13 @@ class Customer:
             self.transition_mat.columns.values, p=self.transition_mat.loc[self.state])
         self.state = next_location
 
+
 ####customer journey simulation#####
 if __name__ == "__main__":
-    
 
     # single customer simulation
     cust1 = Customer(1, 'entrance', transition_matrix)
-    
+
     # check state of customer, if 'checkout' delete the customer
     while cust1.state != 'checkout':
         cust1.next_state()
@@ -72,11 +73,11 @@ if __name__ == "__main__":
         my_customers[i] = my_cust
 
     my_customers[0].is_active()
-    #how do I get them all to change state simultaneously?
+    # how do I get them all to change state simultaneously?
     for cust in my_customers:
         while my_customers[cust].is_active():
             my_customers[cust].next_state()
             print(my_customers[cust])
             time.sleep(1)
- 
-    #how to implement simultaneous simulation?
+
+    # how to implement simultaneous simulation?
