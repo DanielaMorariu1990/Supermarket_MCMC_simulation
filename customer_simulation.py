@@ -27,7 +27,7 @@ class Customer:
     def __repr__(self):
         '''returns a csv string for that customer
         '''
-        return f'{self.id}, {self.state}, {self.transition_mat}'
+        return f'{self.id}, {self.state}, {self.path}'
 
     def is_active(self):
         '''
@@ -66,3 +66,4 @@ if __name__ == "__main__":
 
     print(cust1.state)
     print(cust1.path)
+    print(cust1)
