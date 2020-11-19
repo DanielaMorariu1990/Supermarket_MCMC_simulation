@@ -5,24 +5,30 @@ Start with this to implement the supermarket simulator.
 import numpy as np
 import pandas as pd
 import datetime
+import cv2
 from customer_simulation import Customer
+from animation_template import SupermarketMap, MARKET
 
-transition_probabilities = pd.read_csv("data/transition_matrix.csv")
-transition_probabilities.set_index("location", inplace=True)
+
+transition_matrix = pd.read_csv("data/transition_matrix.csv")
+transition_matrix.set_index("location", inplace=True)
 customer_path = pd.read_csv("data/customer_path.csv")
+background = np.zeros((700, 1000, 3), np.uint8)
+tiles = cv2.imread('./images/tiles.png')
 
 
 class Supermarket():
     """manages multiple Customer instances that are currently in the market.
     """
 
-    def __init__(self):
+    def __init__(self, market):
         # a list of Customer objects
         self.customers = []  # here we need the Customer class!
         self.minutes = 0  # how many minutes have passed?
         self.last_id = 0  # we can concatenate it with the id from customer
         self.possible_states = 5  # or list of locations?
         self.current_time = 0  # current supermarket time
+        self.market = market
 
     def __repr__(self):
         # should return :
@@ -58,20 +64,24 @@ class Supermarket():
         """randomly creates new customers.
         """
         for i in range(stop):
-            cust = Customer(id=i, state="entrance",
-                            transition_mat=transition_probabilities)
+            cust = Customer(i, "entrance", transition_matrix, self.market,
+                            tiles[3 * 32:4 * 32, 1 * 32:3 * 32], 0, 1)
             self.customers.append(cust)
 
     def remove_existing_customers(self):
         """removes every customer that is not active any more.
         """
         # remove the customers which are not active (.is_active )
-        self.customers.remove(
-            cust for cust in self.customers if not cust.is_active)
+
+        for cust in self.customers:
+            if cust.state == 'checkout':
+                self.customers.remove(cust)
+                print(f'{cust } removed')
 
 
 if __name__ == '__main__':
-    penny = Supermarket()
+
+    penny = Supermarket(SupermarketMap(MARKET, tiles))
     penny.get_time()
     penny.add_new_customers(2)
     print(penny.print_customers())
