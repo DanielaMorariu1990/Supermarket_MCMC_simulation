@@ -2,7 +2,8 @@
 
 from PIL import Image
 import numpy as np
-import curses
+import operator
+from supermarket_simulation import Supermarket
 
 im = Image.open('images/supermarket.png')
 market = np.array(im)
@@ -67,4 +68,22 @@ a[50:200, 350:450, 2] = 255
 a[250:, 450:, 0] = 255
 im = Image.fromarray(a)
 im.save('./images/supermarket_generated.png')
+"""
+
+## Pseudocode animation path
+def obstacles -> aisles
+
+entrance = [0:32, 14*32:15*32+32] #make a function out of this, apply to all aisles
+entrance = [0, 14:15]
+drinks = [2:6, 4]
+dairy = [2:6,5]
+spices = [2:6,8:9]
+fruit = [2:6,12:13]
+checkout1 = [8:9,4:5]
+checkout2 = [8:9,8:9]
+checkout3 = [8:9,12:13]
+checkout = [checkout1, checkout2, checkout3]
+
+"""
+Path finding algirthm ->astar.py
 """
