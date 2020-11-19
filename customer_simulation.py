@@ -19,15 +19,11 @@ class Customer:
     ''' a single customer that moves through the supermarket in a MCMC simulation'''
     # constructor
 
-    def __init__(self, id, state, transition_mat, terrain_map, image, x, y):
+    def __init__(self, id, state, transition_mat):
         self.id = id
         self.state = state
         self.transition_mat = transition_mat
         self.path = []
-        self.terrain_map = 0
-        self.image = 0
-        self.x = 0
-        self.y = 0
 
     # repr
 
@@ -58,12 +54,6 @@ class Customer:
             self.transition_mat.columns.values, p=self.transition_mat.loc[self.state])
         self.state = next_location
         self.path.append(self.state)
-
-    def draw(self, frame):
-        xpos = OFS + self.x * TILE_SIZE
-        ypos = OFS + self.y * TILE_SIZE
-        frame[ypos:ypos+32, xpos:xpos+32] = self.image
-        # overlay the Customer image / sprite onto the frame
 
 
 ####customer journey simulation#####
