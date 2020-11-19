@@ -5,30 +5,26 @@ Start with this to implement the supermarket simulator.
 import numpy as np
 import pandas as pd
 import datetime
-import cv2
+#import cv2
 from customer_simulation import Customer
-from animation_template import SupermarketMap, MARKET
+#from animation_template import SupermarketMap, MARKET
 
 
 transition_matrix = pd.read_csv("data/transition_matrix.csv")
 transition_matrix.set_index("location", inplace=True)
-customer_path = pd.read_csv("data/customer_path.csv")
-background = np.zeros((700, 1000, 3), np.uint8)
-tiles = cv2.imread('./images/tiles.png')
 
 
 class Supermarket():
     """manages multiple Customer instances that are currently in the market.
     """
 
-    def __init__(self, market):
+    def __init__(self):
         # a list of Customer objects
         self.customers = []  # here we need the Customer class!
         self.minutes = 0  # how many minutes have passed?
         self.last_id = 0  # we can concatenate it with the id from customer
         self.possible_states = 5  # or list of locations?
         self.current_time = 0  # current supermarket time
-        self.market = market
 
     def __repr__(self):
         # should return :
@@ -64,8 +60,7 @@ class Supermarket():
         """randomly creates new customers.
         """
         for i in range(stop):
-            cust = Customer(i, "entrance", transition_matrix, self.market,
-                            tiles[3 * 32:4 * 32, 1 * 32:3 * 32], 0, 1)
+            cust = Customer(i, "entrance", transition_matrix)
             self.customers.append(cust)
 
     def remove_existing_customers(self):
@@ -81,9 +76,14 @@ class Supermarket():
 
 if __name__ == '__main__':
 
-    penny = Supermarket(SupermarketMap(MARKET, tiles))
+    penny = Supermarket()
     penny.get_time()
     penny.add_new_customers(2)
     print(penny.print_customers())
     penny.next_minute()
     print(penny.print_customers())
+    penny.next_minute()
+    print(penny.print_customers())
+    penny.next_minute()
+    print(penny.print_customers())
+    penny.remove_existing_customers()
