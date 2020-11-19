@@ -68,7 +68,7 @@ class SupermarketMap:
 
 
 background = np.zeros((700, 1000, 3), np.uint8)
-tiles = cv2.imread('../data/tiles.png')
+tiles = cv2.imread('images/tiles.png')
 
 market = SupermarketMap(MARKET, tiles)
 
@@ -84,4 +84,4 @@ while True:
 
 cv2.destroyAllWindows()
 
-market.write_image("supermarket.png")
+market.write_image("images/supermarket_animation.png")
