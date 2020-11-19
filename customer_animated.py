@@ -15,7 +15,7 @@ TILE_SIZE = 32
 OFS = 50
 
 
-class Customer_animated:
+class CustomerAnimated:
     ''' a single customer that moves through the supermarket in a MCMC simulation'''
     # constructor
 
