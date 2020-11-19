@@ -22,9 +22,9 @@ class CustomerAnimated:
     def __init__(self, terrain_map, image, x, y):
 
         self.terrain_map = 0
-        self.image = 0
-        self.x = 0
-        self.y = 0
+        self.image = image
+        self.x = x
+        self.y = y
 
     # repr
 
@@ -36,7 +36,8 @@ class CustomerAnimated:
     def draw(self, frame):
         xpos = OFS + self.x * TILE_SIZE
         ypos = OFS + self.y * TILE_SIZE
-        frame[ypos:ypos+32, xpos:xpos+32] = self.image
+        frame[ypos:ypos+self.image.shape[0],
+              xpos:xpos + self.image.shape[0]] = self.image
         # overlay the Customer image / sprite onto the frame
 
 
