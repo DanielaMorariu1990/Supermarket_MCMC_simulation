@@ -2,6 +2,7 @@
 
 from PIL import Image
 import numpy as np
+import curses
 
 im = Image.open('images/supermarket.png')
 market = np.array(im)
@@ -44,6 +45,14 @@ drink = tiles[y:y + 32, x:x + 32]
 tx = 9 * 32
 ty = 6 * 32
 market[ty:ty+32, tx:tx+32] = drink
+
+# Customer icon
+x = 15 * 32   
+y = 10 * 32   
+customer = tiles[y:y + 32, x:x + 32]
+tx = 0 * 32
+ty = 7 * 32
+market[ty:ty+32, tx:tx+32] = customer
 
 im = Image.fromarray(market)
 im.save('./images/supermarket_filled.png')
