@@ -1,7 +1,8 @@
 import numpy as np
 import cv2
 import pandas as pd
-from customer_simulation import Customer
+from customer_animated import CustomerAnimated
+import time
 
 transition_matrix = pd.read_csv("./data/transition_matrix.csv")
 transition_matrix.set_index("location", inplace=True)
@@ -12,11 +13,11 @@ OFS = 50
 MARKET = """
 ##################
 ##..............##
-##..#b..##..##..##
-##..#p..##..##..##
-##..#a..##..##..##
-##..#c..##..##..##
-##..#g..##..##..##
+##..db..s#..x#..##
+##..dp..s#..x#..##
+##..da..s#..x#..##
+##..dc..s#..x#..##
+##..dg..s#..x#..##
 ##...............#
 ##..C#..C#..C#...#
 ##..##..##..##...#
@@ -62,6 +63,12 @@ class SupermarketMap:
             return self.tiles[7 * 32:8 * 32, 4 * 32:5 * 32]
         elif char == "g":
             return self.tiles[4 * 32:5 * 32, 4 * 32:5 * 32]
+        elif char == 'd':
+            return self.tiles[6 * 32:7 * 32, 12 * 32:13 * 32]
+        elif char == 's':
+            return self.tiles[3 * 32:4 * 32, 2*32: 3*32]
+        elif char == 'x':
+            return self.tiles[3 * 32:4 * 32, 13 * 32: 14*32]
         else:
             return self.tiles[32:64, 64:96]
 
@@ -86,23 +93,29 @@ class SupermarketMap:
         cv2.imwrite(filename, self.image)
 
 
-background = np.zeros((700, 1000, 3), np.uint8)
-tiles = cv2.imread('./images/tiles.png')
+if __name__ == '__main__':
+    background = np.zeros((700, 1000, 3), np.uint8)
+    tiles = cv2.imread('./images/tiles.png')
 
-market = SupermarketMap(MARKET, tiles)
+    market = SupermarketMap(MARKET, tiles)
+    cust1 = CustomerAnimated(market,
+                             tiles[3 * 32:4 * 32, 0 * 32:1 * 32], 3, 4)
 
-while True:
-    frame = background.copy()
-    market.draw(frame)
-    cust1 = Customer(1, "entrance", transition_matrix, market,
-                     tiles[3 * 32:4 * 32, 1 * 32:3 * 32], 0, 1)
-    cust1.draw(frame)
-    cv2.imshow('frame', frame)
+    while True:
+        frame = background.copy()
+        market.draw(frame)
+        time.sleep(5)
 
-    key = chr(cv2.waitKey(1) & 0xFF)
-    if key == 'q':
-        break
+        print(cust1.x, cust1.y)
+        cust1.move("up")
+        print(cust1.x, cust1.y)
+        cust1.draw(frame)
+        cv2.imshow('frame', frame)
 
-cv2.destroyAllWindows()
+        key = chr(cv2.waitKey(1) & 0xFF)
+        if key == 'q':
+            break
 
-market.write_image("./images/supermarket_animation.png")
+    cv2.destroyAllWindows()
+
+    market.write_image("./images/supermarket_animation.png")
