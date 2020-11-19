@@ -11,19 +11,26 @@ import pandas as pd
 #from transition_matrix import transition_matrix
 transition_matrix = pd.read_csv("./data/transition_matrix.csv")
 transition_matrix.set_index("location", inplace=True)
+TILE_SIZE = 32
+OFS = 50
 
 
 class Customer:
     ''' a single customer that moves through the supermarket in a MCMC simulation'''
     # constructor
 
-    def __init__(self, id, state, transition_mat):
+    def __init__(self, id, state, transition_mat, terrain_map, image, x, y):
         self.id = id
         self.state = state
         self.transition_mat = transition_mat
         self.path = []
+        self.terrain_map = 0
+        self.image = 0
+        self.x = 0
+        self.y = 0
 
     # repr
+
     def __repr__(self):
         '''returns a csv string for that customer
         '''
@@ -36,6 +43,8 @@ class Customer:
         '''
         if self.state == 'checkout':
             return False
+        else:
+            return True
 
     # set state
     def next_state(self):
@@ -49,6 +58,12 @@ class Customer:
             self.transition_mat.columns.values, p=self.transition_mat.loc[self.state])
         self.state = next_location
         self.path.append(self.state)
+
+    def draw(self, frame):
+        xpos = OFS + self.x * TILE_SIZE
+        ypos = OFS + self.y * TILE_SIZE
+        frame[ypos:ypos+32, xpos:xpos+32] = self.image
+        # overlay the Customer image / sprite onto the frame
 
 
 ####customer journey simulation#####
