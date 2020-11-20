@@ -21,7 +21,7 @@ class CustomerAnimated:
 
     def __init__(self, terrain_map, image, x, y):
 
-        self.terrain_map = 0
+        self.terrain_map = terrain_map
         self.image = image
         self.x = x
         self.y = y
@@ -39,6 +39,16 @@ class CustomerAnimated:
         frame[ypos:ypos+self.image.shape[0],
               xpos:xpos + self.image.shape[0]] = self.image
         # overlay the Customer image / sprite onto the frame
+
+    def move(self, direction):
+        newx = self.x
+        newy = self.y
+        if direction == 'up':
+            newy -= 1
+
+        if self.terrain_map.contents[newy][newx] == '.':
+            self.x = newx
+            self.y = newy
 
 
 ####customer journey simulation#####
