@@ -66,7 +66,7 @@ class SupermarketMap:
         elif char == 'd':
             return self.tiles[6 * 32:7 * 32, 12 * 32:13 * 32]
         elif char == 's':
-            return self.tiles[3 * 32:4 * 32, 2*32: 3*32]
+            return self.tiles[2 * 32:3 * 32, 3*32: 4*32]
         elif char == 'x':
             return self.tiles[3 * 32:4 * 32, 13 * 32: 14*32]
         else:
