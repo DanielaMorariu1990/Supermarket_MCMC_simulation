@@ -103,7 +103,8 @@ cust1 = Customer(1, "entrance", transition_matrix, marketMap,
 cust1.next_state()
 cust1.get_shortest_path(grid=at.grid, dest=dest)
 for next_p in cust1.path_to_dest:
-    print(next_p)
+    cust1.move(next_p)
+    print(cust1)
 
 print(cust1)
 # ####customer journey simulation#####
