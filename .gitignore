@@ -5,11 +5,11 @@
 !EDA_complete.EDA
 
 *.ipynb_checkpoints
-*.__pychache__
-*.vscode
+__pychache__/
+.vscode/
 
-./2020_11_17_CustomerClass.py
-./customer_animated.py
-./supermarket_animation.py
+2020_11_17_CustomerClass.py
+customer_animated.py
+supermarket_animation.py
 
-./TODOtxt
+TODO.txt
