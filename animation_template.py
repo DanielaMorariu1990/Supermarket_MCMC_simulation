@@ -1,8 +1,8 @@
-import numpy as np
+import time
 import cv2
+import numpy as np
 import pandas as pd
 from customer_animated import CustomerAnimated
-import time
 
 transition_matrix = pd.read_csv("./data/transition_matrix.csv")
 transition_matrix.set_index("location", inplace=True)

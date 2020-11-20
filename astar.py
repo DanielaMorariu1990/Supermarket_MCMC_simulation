@@ -3,8 +3,8 @@ A* algorithm
 """
 import operator
 import numpy as np
-from animation_template import MARKET
 import pandas as pd
+from animation_template import MARKET
 
 
 def heuristic(current, target):
