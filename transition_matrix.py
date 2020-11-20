@@ -3,12 +3,11 @@ Calculate transition matrix for each section
 in the supermarket
 """
 
-import pandas as pd
-import numpy as np
 import datetime
+import pandas as pd
+
 
 # correct data (customers with no marked checkout)
-
 
 def missing_checkout(data):
     """fixes data quality issue:
@@ -44,14 +43,14 @@ def inserting_initial_state(data):
     for i in range(min_datetime.shape[0]):
         data = data.append({"timestamp": min_datetime["timestamp"].iloc[i] - one_minute, 
                             "customer_no": min_datetime["customer_no"].iloc[i],
-                            "location": "entrance"}, 
+                            "location": "entrance"},
                             ignore_index=True)
     return data
 
 
 # make customer name unique
 def cust_no_name(data, weekday):
-    data["customer_no"] = data["customer_no"].apply(lambda x: str(x)+"_" + weekday)
+    data["customer_no"] = data["customer_no"].apply(lambda x: str(x)+"_"+weekday)
     return data
 
 
@@ -75,7 +74,7 @@ wednesday["weekday"] = "wednesday"
 cust_no_name(wednesday, "wednesday")
 
 thursday = pd.read_csv("./data/thursday.csv",
-                       header=0,sep=";", parse_dates=True)
+                       header=0, sep=";", parse_dates=True)
 thursday = missing_checkout(thursday)
 thursday["weekday"] = "thursday"
 cust_no_name(thursday, "thursday")
@@ -114,7 +113,7 @@ states = data[["location", "location_next"]]
 
 # calculate transition matrix
 transition_matrix = pd.crosstab(data['location'],
-                                data['location_next'], 
+                                data['location_next'],
                                 normalize=0)
 
 # check if the matrix is correct
