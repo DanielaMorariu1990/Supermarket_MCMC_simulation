@@ -1,5 +1,4 @@
-*.data
-!transition_matrix.data
+!*/data/transition_matrix.data
 
 *.EDA
 !EDA_complete.EDA
