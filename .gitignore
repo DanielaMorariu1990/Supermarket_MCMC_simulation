@@ -1,4 +1,14 @@
-#\data
+./data
 .ipynb_checkpoints/
 ./pychache
 ./vscode
+
+EDA/2020_11_17_readDataScript.py
+EDA/data_exploration.ipynb
+EDA/EDA.ipynb
+
+2020_11_17_CustomerClass.py
+customer_animated.py
+supermarket_animation.py
+
+TODO.txt
