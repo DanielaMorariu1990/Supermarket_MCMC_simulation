@@ -16,10 +16,12 @@ def heuristic(current, target):
     return result
 
 
-def walkable(grid_array):
+def walkable(grid_array): 
     """checks if node is on the grid and not an obstacle"""
 
+    obstacles = [entrance, drinks, dairy, spices, fruit, checkout]
     walkable = []
+
     for i in range(len(grid_array)):
         for j in range(len(grid_array[0])):
             if grid_array[i, j] == 0:
