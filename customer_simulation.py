@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 17 09:46:09 2020
-
-@author: hanbo
+Customer class that simulates the paths
+of new customers in the supermarket.
 """
-import numpy as np
+
 import time
+
+import numpy as np
 import pandas as pd
+import cv2
+
 import astar as at
 from animation_template import SupermarketMap, MARKET
-import time
-import cv2
-from animation_template import MARKET
 
 
 # from transition_matrix import transition_matrix
@@ -22,8 +22,21 @@ tiles = cv2.imread('./images/tiles.png')
 
 TILE_SIZE = 32
 OFS = 50
-dest = pd.read_csv("./data/destinations.csv")
-dest.set_index("location", inplace=True)
+# dest = pd.read_csv("./data/destinations.csv")
+# dest.set_index("location", inplace=True)
+dest = {
+    "entrance_x": [9, 10],
+    "entrance_y": [14],
+    "dairy_x": [2, 4, 6],
+    "dairy_y": [3],
+    "fruit_x": [5, 6, 3],
+    "fruit_y": [6],
+    "spices_x": [6, 4, 2],
+    "spices_y": [10],
+    "drinks_x": [6, 4, 2],
+    "drinks_y": [11],
+    "checkout_x": [8, 9],
+    "checkout_y": [7, 3]}
 
 
 class Customer:
@@ -81,10 +94,19 @@ class Customer:
     def get_shortest_path(self, grid, dest):
         start = self.path[len(self.path) - 2]
         end = self.state
-        start_loc_x = dest.loc[start]["x"] + 1
-        start_loc_y = dest.loc[start]["y"]+1
-        end_loc_x = dest.loc[end]["x"] + 1
-        end_loc_y = dest.loc[end]["y"] + 1
+        print(start)
+        print(end)
+        # if start == end:
+        #     self.path_to_dest = 0
+        # else:
+        start_loc_x = np.random.choice(dest[start+"_x"])
+        start_loc_y = np.random.choice(dest[start+"_y"])
+        end_loc_x = np.random.choice(dest[end+"_x"])
+        end_loc_y = np.random.choice(dest[end + "_y"])
+        print(start_loc_x)
+        print(start_loc_y)
+        print(end_loc_x)
+        print(end_loc_y)
 
         path_to_dest = at.find_path(grid, (start_loc_x, start_loc_y),
                                     (end_loc_x, end_loc_y), at.possible_moves)
@@ -92,34 +114,25 @@ class Customer:
         print(self.path_to_dest)
 
     def move(self, next_p):
-        if next_p is not None:
-            self.x = next_p[0]
-            self.y = next_p[1]
+        if next_p != 0:
+            self.x = next_p[1]
+            self.y = next_p[0]
+        else:
+            self.x = self.x
+            self.y = self.y
 
 
-marketMap = SupermarketMap(MARKET, tiles)
-cust1 = Customer(1, "entrance", transition_matrix, marketMap,
-                 tiles[3 * 32:4 * 32, 0 * 32:1 * 32], 15, 10)
-cust1.next_state()
-cust1.get_shortest_path(grid=at.grid, dest=dest)
-for next_p in cust1.path_to_dest:
-    cust1.move(next_p)
+if __name__ == '__main__':
+    marketMap = SupermarketMap(MARKET, tiles)
+    cust1 = Customer(5, "entrance", transition_matrix, marketMap,
+                     tiles[3 * 32:4 * 32, 0 * 32:1 * 32], 15, 10)
+    cust1.next_state()
     print(cust1)
+    cust1.get_shortest_path(grid=at.grid, dest=dest)
+    print(cust1.path_to_dest)
+    if cust1.path_to_dest != 0:
+        for next_p in cust1.path_to_dest:
+            cust1.move(next_p)
+            print(cust1)
 
-print(cust1)
-# ####customer journey simulation#####
-# # Driver function
-# if __name__ == "__main__":
-#     # spawn one customer
-#     cust1 = Customer(1, 'entrance', transition_matrix)
-
-#     # check state of customer, if 'checkout' delete the customer
-#     while cust1.state != 'checkout':
-#         cust1.next_state()
-#         # for testing purposes set time to one second
-#         # for implementation set to one minute
-#         time.sleep(1)
-
-#     print(cust1.state)
-#     print(cust1.path)
-#     print(cust1)
+    print(cust1)
