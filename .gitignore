@@ -1,11 +1,14 @@
-!*/data/transition_matrix.data
-
-*.EDA
-!EDA_complete.EDA
-
 *.ipynb_checkpoints
 __pychache__/
 .vscode/
+
+/data/*
+!/data/transition_matrix.csv
+
+*/EDA
+!EDA_complete.
+
+
 
 2020_11_17_CustomerClass.py
 customer_animated.py
