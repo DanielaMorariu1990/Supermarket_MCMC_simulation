@@ -58,14 +58,14 @@ market[ty:ty+32, tx:tx+32] = customer
 im = Image.fromarray(market)
 im.save('./images/supermarket_filled.png')
 
-## Pseudocode animation path
-entrance = [0:32, 14*32:15*32+32]
-entrance = [0, 14:15]
-drinks = [2:6, 4]
-dairy = [2:6,5]
-spices = [2:6,8:9]
-fruit = [2:6,12:13]
-checkout1 = [8:9,4:5]
-checkout2 = [8:9,8:9]
-checkout3 = [8:9,12:13]
-checkout = [checkout1, checkout2, checkout3]
+# ## Pseudocode animation path
+# entrance = [0:32, 14*32:15*32+32]
+# entrance = [0, 14:15]
+# drinks = [2:6, 4]
+# dairy = [2:6,5]
+# spices = [2:6,8:9]
+# fruit = [2:6,12:13]
+# checkout1 = [8:9,4:5]
+# checkout2 = [8:9,8:9]
+# checkout3 = [8:9,12:13]
+# checkout = [checkout1, checkout2, checkout3]
