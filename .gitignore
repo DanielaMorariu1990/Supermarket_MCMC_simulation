@@ -5,10 +5,8 @@ __pychache__/
 /data/*
 !/data/transition_matrix.csv
 
-*/EDA
-!EDA_complete.
-
-
+/EDA/*
+!/EDA/EDA_complete.ipynb
 
 2020_11_17_CustomerClass.py
 customer_animated.py
