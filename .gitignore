@@ -1,0 +1,15 @@
+*.ipynb_checkpoints
+__pychache__/
+.vscode/
+
+/data/*
+!/data/transition_matrix.csv
+
+/EDA/*
+!/EDA/EDA_complete.ipynb
+
+2020_11_17_CustomerClass.py
+customer_animated.py
+supermarket_animation.py
+
+TODO.txt
