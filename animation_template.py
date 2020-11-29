@@ -2,7 +2,7 @@ import time
 import cv2
 import numpy as np
 import pandas as pd
-from customer_animated import CustomerAnimated
+#from customer_simulation import Customer
 
 transition_matrix = pd.read_csv("./data/transition_matrix.csv")
 transition_matrix.set_index("location", inplace=True)
@@ -93,29 +93,29 @@ class SupermarketMap:
         cv2.imwrite(filename, self.image)
 
 
-if __name__ == '__main__':
-    background = np.zeros((700, 1000, 3), np.uint8)
-    tiles = cv2.imread('./images/tiles.png')
+# if __name__ == '__main__':
+#     background = np.zeros((700, 1000, 3), np.uint8)
+#     tiles = cv2.imread('./images/tiles.png')
 
-    market = SupermarketMap(MARKET, tiles)
-    cust1 = CustomerAnimated(market,
-                             tiles[3 * 32:4 * 32, 0 * 32:1 * 32], 3, 4)
+#     market = SupermarketMap(MARKET, tiles)
+#     cust1 = Customer(5, "entrance", transition_matrix, market,
+#                      tiles[3 * 32:4 * 32, 0 * 32:1 * 32], 15, 10)
 
-    while True:
-        frame = background.copy()
-        market.draw(frame)
-        time.sleep(5)
+#     while True:
+#         frame = background.copy()
+#         market.draw(frame)
+#         time.sleep(5)
 
-        print(cust1.x, cust1.y)
-        cust1.move("up")
-        print(cust1.x, cust1.y)
-        cust1.draw(frame)
-        cv2.imshow('frame', frame)
+#         print(cust1.x, cust1.y)
+#         cust1.move("up")
+#         print(cust1.x, cust1.y)
+#         cust1.draw(frame)
+#         cv2.imshow('frame', frame)
 
-        key = chr(cv2.waitKey(1) & 0xFF)
-        if key == 'q':
-            break
+#         key = chr(cv2.waitKey(1) & 0xFF)
+#         if key == 'q':
+#             break
 
-    cv2.destroyAllWindows()
+#     cv2.destroyAllWindows()
 
-    market.write_image("./images/supermarket_animation.png")
+#     market.write_image("./images/supermarket_animation.png")

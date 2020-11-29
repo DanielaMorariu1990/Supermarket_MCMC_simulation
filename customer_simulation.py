@@ -96,30 +96,25 @@ class Customer:
         end = self.state
         print(start)
         print(end)
-        # if start == end:
-        #     self.path_to_dest = 0
-        # else:
-        start_loc_x = np.random.choice(dest[start+"_x"])
-        start_loc_y = np.random.choice(dest[start+"_y"])
-        end_loc_x = np.random.choice(dest[end+"_x"])
-        end_loc_y = np.random.choice(dest[end + "_y"])
-        print(start_loc_x)
-        print(start_loc_y)
-        print(end_loc_x)
-        print(end_loc_y)
+        if start != end:
+            start_loc_x = np.random.choice(dest[start+"_x"])
+            start_loc_y = np.random.choice(dest[start+"_y"])
+            end_loc_x = np.random.choice(dest[end+"_x"])
+            end_loc_y = np.random.choice(dest[end + "_y"])
+            print(start_loc_x)
+            print(start_loc_y)
+            print(end_loc_x)
+            print(end_loc_y)
 
-        path_to_dest = at.find_path(grid, (start_loc_x, start_loc_y),
-                                    (end_loc_x, end_loc_y), at.possible_moves)
-        self.path_to_dest = path_to_dest
-        print(self.path_to_dest)
+            path_to_dest = at.find_path(grid, (start_loc_x, start_loc_y),
+                                        (end_loc_x, end_loc_y), at.possible_moves)[::-1]
+            self.path_to_dest = path_to_dest
+            print(self.path_to_dest)
 
-    def move(self, next_p):
-        if next_p != 0:
-            self.x = next_p[1]
-            self.y = next_p[0]
-        else:
-            self.x = self.x
-            self.y = self.y
+    def move(self):
+        for new_y, new_x in self.path_to_dest:
+            self.x = new_x
+            self.y = new_y
 
 
 if __name__ == '__main__':
@@ -132,7 +127,7 @@ if __name__ == '__main__':
     print(cust1.path_to_dest)
     if cust1.path_to_dest != 0:
         for next_p in cust1.path_to_dest:
-            cust1.move(next_p)
+            cust1.move()
             print(cust1)
 
     print(cust1)
