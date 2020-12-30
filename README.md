@@ -1,7 +1,7 @@
 # Supermarket MCMC simulation
 
 Project 8 for the Spiced Data Science Bootcamp.
-<img src="https://github.com/DanielaMorariu1990/Generate_image_captions/blob/main/pic.PNG" width="700" height="350">
+<img src="https://github.com/DanielaMorariu1990/Supermarket_MCMC_simulation/blob/main/pic.PNG" width="700" height="350">
 
 ## Team
 
