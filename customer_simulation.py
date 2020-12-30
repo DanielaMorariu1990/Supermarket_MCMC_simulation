@@ -12,7 +12,7 @@ import pandas as pd
 import cv2
 
 import astar as at
-from animation_template import SupermarketMap, MARKET
+#from animation_template import SupermarketMap, MARKET
 
 
 # from transition_matrix import transition_matrix
@@ -52,7 +52,7 @@ class Customer:
         self.image = image
         self.x = x
         self.y = y
-        self.path_to_dest = 0
+        self.path_to_dest = []
 
     # repr
 
@@ -85,6 +85,7 @@ class Customer:
         self.path.append(self.state)
 
     def draw(self, frame):
+
         xpos = OFS + self.x * TILE_SIZE
         ypos = OFS + self.y * TILE_SIZE
         frame[ypos:ypos+self.image.shape[0],
@@ -109,25 +110,34 @@ class Customer:
             path_to_dest = at.find_path(grid, (start_loc_x, start_loc_y),
                                         (end_loc_x, end_loc_y), at.possible_moves)[::-1]
             self.path_to_dest = path_to_dest
+
             print(self.path_to_dest)
 
+    def to_move(self):
+        if len(self.path_to_dest) > 0:
+            return True
+
+        return False
+
     def move(self):
-        for new_y, new_x in self.path_to_dest:
+        if len(self.path_to_dest) > 0:
+            new_y, new_x = self.path_to_dest.pop()
             self.x = new_x
             self.y = new_y
+            print(new_x, new_y)
 
 
-if __name__ == '__main__':
-    marketMap = SupermarketMap(MARKET, tiles)
-    cust1 = Customer(5, "entrance", transition_matrix, marketMap,
-                     tiles[3 * 32:4 * 32, 0 * 32:1 * 32], 15, 10)
-    cust1.next_state()
-    print(cust1)
-    cust1.get_shortest_path(grid=at.grid, dest=dest)
-    print(cust1.path_to_dest)
-    if cust1.path_to_dest != 0:
-        for next_p in cust1.path_to_dest:
-            cust1.move()
-            print(cust1)
+# if __name__ == '__main__':
+#     marketMap = SupermarketMap(MARKET, tiles)
+#     cust1 = Customer(5, "entrance", transition_matrix, marketMap,
+#                      tiles[3 * 32:4 * 32, 0 * 32:1 * 32], 15, 10)
+#     cust1.next_state()
+#     print(cust1)
+#     cust1.get_shortest_path(grid=at.grid, dest=dest)
+#     print(cust1.path_to_dest)
+#     if cust1.path_to_dest != 0:
+#         for next_p in cust1.path_to_dest:
+#             cust1.move()
+#             print(cust1)
 
-    print(cust1)
+#     print(cust1)
