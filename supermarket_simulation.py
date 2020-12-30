@@ -25,13 +25,15 @@ class Supermarket():
     """manages multiple Customer instances that are currently in the market.
     """
 
-    def __init__(self):
+    def __init__(self, market):
         # a list of Customer objects
         self.customers = []  # here we need the Customer class!
         self.minutes = 0  # how many minutes have passed?
-        self.last_id = 0  # we can concatenate it with the id from customer
+        self.id_suffix = 0  # we can concatenate it with the id from customer
         self.possible_states = 5  # or list of locations?
-        self.current_time = 0  # current supermarket time
+        self.market = market  # current supermarket time
+        self.current_time = 0
+        self.to_move = False
 
     def __repr__(self):
         # should return :
@@ -42,8 +44,9 @@ class Supermarket():
         """current time in HH:MM format,
         """
         # now = datetime.now().time() #creates a time object
-        now = datetime.datetime.now()
-        self.current_time = now  # .strftime("%H:%M")
+        hour = self.minutes // 60 + 7
+        minutes = self.minutes % 60
+        return f'{str(hour).zfill(2)}:{str(minutes).zfill(2)}'
 
     def print_customers(self):
         """print all customers with the current time and id in CSV format.
@@ -51,19 +54,32 @@ class Supermarket():
         # current time --> supermarket
         # customer.state --> from customers
         # customer.id --> Customer
+        self.current_time = self.get_time()
         return f'Supermarket("{self.customers}", "{self.current_time}")'
 
     def next_minute(self):
         """propagates all customers to the next state.
         """
-        self.current_time += datetime.timedelta(minutes=1)
+
         self.minutes += 1
         # we would need to call a next_state on customers
         # I do not know how to access it to print it????
         for cust in self.customers:
             cust.next_state()
             cust.get_shortest_path(grid=at.grid, dest=dest)
+
+        self.to_move = True
+
+    def move_customers(self):
+        for cust in self.customers:
             cust.move()
+
+    def draw_customers(self, frame):
+        '''
+        draw all the customers
+        '''
+        for customer in self.customers:
+            customer.draw(frame)
 
     def add_new_customers(self, stop, id_suffix, terrain_map, image, x, y):
         """randomly creates new customers.
@@ -73,14 +89,17 @@ class Supermarket():
                             terrain_map=terrain_map, image=image, x=x, y=y)
             self.customers.append(cust)
 
-        self.last_id += 1
+        self.id_suffix += 1
 
     def remove_existing_customers(self):
         """removes every customer that is not active any more.
         """
         # remove the customers which are not active (.is_active )
-
+        self.to_move = False
         for cust in self.customers:
             if cust.state == 'checkout':
                 self.customers.remove(cust)
                 print(f'{cust} removed')
+
+            if cust.to_move():
+                self.to_move = True
