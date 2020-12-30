@@ -1,6 +1,7 @@
 *.ipynb_checkpoints
 __pychache__/
 .vscode/
+*__pychache
 
 /data/*
 !/data/transition_matrix.csv
